@@ -1,0 +1,34 @@
+
+name: Update OMEGA Parent
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-parent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout OMEGA
+        uses: actions/checkout@v4
+        with:
+          repository: mrranger939/OMEGA
+          token: ${{ secrets.OMEGA_UPDATE_TOKEN }}
+          submodules: recursive
+
+      - name: Update frontend reference
+        run: |
+          git submodule update --remote omega-frontend
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add omega-frontend
+
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update frontend submodule"
+            git push origin HEAD:main
+          fi
