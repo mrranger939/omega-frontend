@@ -24,7 +24,7 @@ export default function Home() {
 
             <div className="mt-8 flex items-center gap-2">
         <span
-            className={`h-4 w-3 rounded-full ${
+            className={`h-3 w-3 rounded-full ${
                 status === "online"
                     ? "bg-green-500"
                     : status === "offline"
